@@ -34,8 +34,21 @@ export class LoginComponent {
 
   login() {
     console.log(this.loginForm.value);
-    this.service.login(this.loginForm.value).subscribe((response) =>{
-      console.log(response);
-    })
+    this.service.login(
+      this.loginForm.get(['email'])!.value,
+      this.loginForm.get(['password'])!.value
+    ).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigateByUrl("user/dashboard");
+      },
+      (error) => {
+        this.snackBar.open("Bad Credentials", "Close", {
+          duration: 5000,
+          panelClass: 'error-snackbar'
+        });
+      }
+    );
   }
+
 }
